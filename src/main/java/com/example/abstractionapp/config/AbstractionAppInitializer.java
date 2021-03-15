@@ -22,7 +22,7 @@ public class AbstractionAppInitializer implements ApplicationListener<ContextRef
          * TODO: carry out code initial setup
          */
 
-        createDefaultAbstractType();
+        //createDefaultAbstractType();
     }
 
     /**

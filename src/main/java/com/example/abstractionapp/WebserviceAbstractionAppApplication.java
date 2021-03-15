@@ -14,6 +14,7 @@ public class WebserviceAbstractionAppApplication {
 		SpringApplication.run(WebserviceAbstractionAppApplication.class, args);
 	}
 
+
 	@Bean
 	public Executor taskExecutor(){
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -24,4 +25,6 @@ public class WebserviceAbstractionAppApplication {
 		executor.initialize();
 		return executor;
 	}
+
+
 }
