@@ -5,7 +5,9 @@ import com.example.abstractionapp.models.Communication;
 import com.example.abstractionapp.repositories.CommunicationRepository;
 import com.example.abstractionapp.services.interfaces.CommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CommunicationServiceImp implements CommunicationService{
 
     @Autowired
@@ -13,13 +15,21 @@ public class CommunicationServiceImp implements CommunicationService{
 
     @Override
     public Communication save(CommunicationDto communicationDto) {
-        return null;
-    }
+        try{
+            Communication communication = new Communication(communicationDto.getVariableName(),
+                    communicationDto.getAbstractType(), communicationDto.getCreatedBy());
+            return communicationRepository.save(communication);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }//save
 
     @Override
     public Iterable<Communication> findAll() {
         return null;
-    }
+    }//findAll
 
     @Override
     public Communication findById(Long id) {
@@ -29,10 +39,11 @@ public class CommunicationServiceImp implements CommunicationService{
     @Override
     public Communication findByUuid(String uuid) {
         return null;
+    }//findById
+
+   @Override
+   public Communication findByVariableName(String name) {
+       return communicationRepository.findByVariableName(name);
     }
 
-    @Override
-    public Communication findByName(String name) {
-        return null;
-    }
 }

@@ -17,10 +17,13 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class AbstractType extends NamedModel {
 
-    public AbstractType(String name){
+    public AbstractType(String name, long createdBy){
 
-        super.setName(name);
-    }
+        //set the variables
+        this.setName(name);
+        this.setCreatedBy(createdBy);
+
+    }//AbstractType
 
     @PrePersist
     public void onPrePersistChild() {
