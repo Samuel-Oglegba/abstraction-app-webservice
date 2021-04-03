@@ -15,6 +15,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Task extends NamedModel {
 
+    public Task(String name, long createdBy){
+
+        this.setName(name);
+        this.setCreatedBy(createdBy);
+
+    }//Task
+
     @ManyToOne
     @JsonIgnore
     private Attribute attribute;

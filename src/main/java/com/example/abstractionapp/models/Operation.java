@@ -15,6 +15,23 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Operation extends NamedModel {
 
+    public Operation(String name, long createdBy){
+
+         this.setName(name);
+         this.setCreatedBy(createdBy);
+
+    }//Operation
+
+    public Operation(String name, String inputType, String outputType,long createdBy, AbstractType abstractType){
+
+        this.setName(name);
+        this.setInputType(inputType);
+        this.setOutputType(outputType);
+        this.setCreatedBy(createdBy);
+        this.setAbstractType(abstractType);
+
+    }//Operation
+
     private String inputType;
 
     private String outputType;

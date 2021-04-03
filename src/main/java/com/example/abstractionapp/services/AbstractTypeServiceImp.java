@@ -19,7 +19,7 @@ public class AbstractTypeServiceImp implements AbstractTypeService {
     @Override
     public AbstractType save(AbstractTypeDto abstractTypeDto) {
         try {
-            AbstractType abstractType = new AbstractType(abstractTypeDto.getName());
+            AbstractType abstractType = new AbstractType(abstractTypeDto.getName(), abstractTypeDto.getCreatedBy());
 
             return abstractTypeRepository.save(abstractType);
         }catch (Exception e){

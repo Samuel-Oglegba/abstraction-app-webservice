@@ -13,5 +13,5 @@ public interface CommunicationService {
 
     public  Communication findByUuid(String uuid);
 
-    public  Communication findByName(String name);
+    public  Communication findByVariableName(String name);
 }

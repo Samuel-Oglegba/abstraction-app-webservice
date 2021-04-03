@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class TaskDto {
 
-    private Long id;
+    private long id;
 
     private String uuid;
 
@@ -18,6 +18,8 @@ public class TaskDto {
 
     private boolean active;
 
-    private Long attributeId;
+    private long attributeId;
+
+    private long createdBy;
 
 }

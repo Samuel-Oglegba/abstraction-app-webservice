@@ -1,7 +1,15 @@
 package com.example.abstractionapp.dto;
 
+import com.example.abstractionapp.models.Communication;
+import com.example.abstractionapp.models.Operation;
+import com.example.abstractionapp.models.Task;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
 public class OperationImplementationDto {
 
     private Long id;
@@ -9,16 +17,18 @@ public class OperationImplementationDto {
     private String uuid;
 
     @NotNull
-    private long taskId;
+    private Task task;
 
     @NotNull
-    private long operationID;
+    private Operation operation;
 
     @NotNull
-    private long communicationID;
+    private Communication communication;
 
     private boolean active;
 
     private String attributes;
+
+    private long createdBy;
 
 }

@@ -15,6 +15,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Communication extends Model {
 
+    public Communication(String variableName, AbstractType abstractType, long createdBy){
+
+        this.setVariableName(variableName);
+        this.setAbstractType(abstractType);
+        this.setCreatedBy(createdBy);
+
+    }//Communication
+
     @ManyToOne
     @JsonIgnore
     private AbstractType abstractType;

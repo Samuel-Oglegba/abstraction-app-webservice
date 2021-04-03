@@ -9,7 +9,8 @@ public interface OperationImplementationRepository extends JpaRepository<Operati
 
     OperationImplementation findByUuid(String uuid);
 
-    Iterable<OperationImplementation> findByTaskId(long taskId);
+   // Iterable<OperationImplementation> findByTaskId(long taskId);
+    OperationImplementation findByTaskId(long taskId);
 
     Iterable<OperationImplementation> findByOperationId(long operationId);
 
