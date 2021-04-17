@@ -17,6 +17,17 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class OperationImplementation extends Model {
 
+    public OperationImplementation(Task task, Operation operation, Communication communication,
+                                   String attributes, long createdBy){
+
+        this.setTask(task);
+        this.setOperation(operation);
+        this.setCommunication(communication);
+        this.setAttributes(attributes);
+        this.setCreatedBy(createdBy);
+
+    }//OperationImplementation
+
     @ManyToOne
     @JsonIgnore
     private Task task;

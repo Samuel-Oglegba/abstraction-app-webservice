@@ -1,5 +1,6 @@
 package com.example.abstractionapp.dto;
 
+import com.example.abstractionapp.models.AbstractType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,8 @@ public class OperationDto {
 
     private String outputType;
 
-    private Long abstractTypeId;
+    private AbstractType abstractType;
+
+    private long createdBy;
 
 }

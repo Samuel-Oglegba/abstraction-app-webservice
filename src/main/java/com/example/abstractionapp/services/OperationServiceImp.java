@@ -15,7 +15,17 @@ public class OperationServiceImp implements OperationService {
 
     @Override
     public Operation save(OperationDto operationDto) {
-        return null;
+        try{
+
+           Operation operation = new Operation(operationDto.getName(), operationDto.getInputType(),
+                   operationDto.getOutputType(), operationDto.getCreatedBy(), operationDto.getAbstractType());
+
+           return operationRepository.save(operation);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -35,6 +45,6 @@ public class OperationServiceImp implements OperationService {
 
     @Override
     public Operation findByName(String name) {
-        return null;
+        return operationRepository.findByName(name);
     }
 }

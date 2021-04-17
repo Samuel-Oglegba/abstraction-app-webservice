@@ -5,7 +5,11 @@ import com.example.abstractionapp.dto.TaskDto;
 import com.example.abstractionapp.repositories.TaskRepository;
 import com.example.abstractionapp.services.interfaces.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Service
 public class TaskServiceImp implements TaskService {
 
     @Autowired
@@ -13,7 +17,14 @@ public class TaskServiceImp implements TaskService {
 
     @Override
     public Task save(TaskDto taskDto) {
-        return null;
+        try{
+            Task task = new Task(taskDto.getName(), taskDto.getCreatedBy());
+            return taskRepository.save(task);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -22,18 +33,18 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public Task findById(Long id) {
-        return null;
+    public Optional<Task> findById(Long id) {
+        return taskRepository.findById(id);
     }
 
     @Override
     public Task findByUuid(String uuid) {
-        return null;
+        return taskRepository.findByUuid(uuid);
     }
 
     @Override
     public Task findByName(String name) {
-        return null;
+        return taskRepository.findByName(name);
     }
 
 }

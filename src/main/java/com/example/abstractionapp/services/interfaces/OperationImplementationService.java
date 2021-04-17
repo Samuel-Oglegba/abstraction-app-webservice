@@ -3,17 +3,20 @@ package com.example.abstractionapp.services.interfaces;
 import com.example.abstractionapp.dto.OperationImplementationDto;
 import com.example.abstractionapp.models.OperationImplementation;
 
+import java.util.Optional;
+
 public interface OperationImplementationService {
 
     public OperationImplementation save(OperationImplementationDto operationImplementationDto);
 
     public Iterable<OperationImplementation> findAll();
 
-    public  OperationImplementation findById(Long id);
+    public Optional<OperationImplementation> findById(Long id);
 
     public  OperationImplementation findByUuid(String uuid);
 
-    public  Iterable<OperationImplementation> findByTaskId(long taskId);
+   // public  Iterable<OperationImplementation> findByTaskId(long taskId);
+    public  OperationImplementation findByTaskId(long taskId);
 
     public  Iterable<OperationImplementation> findByOperationId(long operationId);
 

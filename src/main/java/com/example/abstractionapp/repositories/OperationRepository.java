@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OperationRepository extends JpaRepository<Operation,Long> {
 
-    AbstractType findByName(String name);
+    Operation findByName(String name);
 
-    AbstractType findByUuid(String uuid);
+    Operation findByUuid(String uuid);
 }

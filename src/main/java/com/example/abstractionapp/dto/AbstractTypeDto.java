@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class AbstractTypeDto {
 
-    private Long id;
+    private long id;
 
     private String uuid;
 
@@ -17,4 +17,6 @@ public class AbstractTypeDto {
     private String name;
 
     private boolean active;
+
+    private long createdBy;
 }

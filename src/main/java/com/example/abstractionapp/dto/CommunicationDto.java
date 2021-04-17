@@ -1,5 +1,6 @@
 package com.example.abstractionapp.dto;
 
+import com.example.abstractionapp.models.AbstractType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CommunicationDto {
 
-    private Long id;
+    private long id;
 
     private String uuid;
 
@@ -18,5 +19,7 @@ public class CommunicationDto {
 
     private boolean active;
 
-    private String attributes;
+    private AbstractType abstractType;
+
+    private long createdBy;
 }

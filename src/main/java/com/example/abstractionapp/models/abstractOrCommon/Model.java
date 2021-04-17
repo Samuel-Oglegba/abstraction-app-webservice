@@ -25,7 +25,7 @@ public class Model extends Audit<Long> {
     @Column(nullable = false, unique = true)
     private String uuid;
 
-    private String createdBy;
+    private long createdBy;
 
     private boolean deleted;
 
