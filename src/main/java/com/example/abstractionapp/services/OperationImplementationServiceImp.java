@@ -46,8 +46,8 @@ public class OperationImplementationServiceImp implements OperationImplementatio
     }
 
     @Override
-  //  public Iterable<OperationImplementation> findByTaskId(long taskId) {
-    public OperationImplementation findByTaskId(long taskId) {
+    public Iterable<OperationImplementation> findByTaskId(long taskId) {
+    //public OperationImplementation findByTaskId(long taskId) {
         return operationImplementationRepository.findByTaskId(taskId);
     }
 

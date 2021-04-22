@@ -16,7 +16,7 @@ public interface OperationImplementationService {
     public  OperationImplementation findByUuid(String uuid);
 
    // public  Iterable<OperationImplementation> findByTaskId(long taskId);
-    public  OperationImplementation findByTaskId(long taskId);
+    public Iterable<OperationImplementation> findByTaskId(long taskId);
 
     public  Iterable<OperationImplementation> findByOperationId(long operationId);
 

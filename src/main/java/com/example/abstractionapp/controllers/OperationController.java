@@ -13,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 
 
 @Controller
-@CrossOrigin(origins = "*")
+@CrossOrigin(
+        origins = "*")
 public class OperationController {
 
     @Autowired
@@ -37,23 +39,31 @@ public class OperationController {
      */
     @RequestMapping(value = "/api/v1/operation-task/{taskName}",method = RequestMethod.GET,produces = "application/json")
     @ResponseBody
-    public OperationImplementationDto getTaskImplementation(@PathVariable("taskName") final @NotNull String taskName){
+    //public OperationImplementationDto getTaskImplementation(@PathVariable("taskName") final @NotNull String taskName){
+    public ArrayList<OperationImplementationDto> getTaskImplementation(@PathVariable("taskName") final @NotNull String taskName){
 
         Task task = taskServiceImp.findByName(taskName.toUpperCase());
-        OperationImplementation operationImplementation = operationImplementationServiceImp.findByTaskId(task.getId());
+        Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByTaskId(task.getId());
 
+        //Iterator iterator = operationImplementation.iterator();
         //initialize the data transfer object
-        OperationImplementationDto operationImplementationDto = new OperationImplementationDto();
+        ArrayList<OperationImplementationDto> operationImplementationList = new ArrayList<>();
 
-        //set the data transfer object
-        operationImplementationDto.setOperation(operationImplementation.getOperation());
-        operationImplementationDto.setCommunication(operationImplementation.getCommunication());
-        operationImplementationDto.setTask(operationImplementation.getTask());
-        operationImplementationDto.setAttributes(operationImplementation.getAttributes());
-        operationImplementationDto.setId(operationImplementation.getId());
-        operationImplementationDto.setCreatedBy(operationImplementation.getCreatedBy());
-        
-        return operationImplementationDto;
+        for (OperationImplementation implementation : operationImplementation){
+            //set the data transfer object
+            OperationImplementationDto operationImplementationDto = new OperationImplementationDto();
+            operationImplementationDto.setOperation(implementation.getOperation());
+            operationImplementationDto.setCommunication(implementation.getCommunication());
+            operationImplementationDto.setTask(implementation.getTask());
+            operationImplementationDto.setAttributes(implementation.getAttributes());
+            operationImplementationDto.setId(implementation.getId());
+            operationImplementationDto.setCreatedBy(implementation.getCreatedBy());
+
+            operationImplementationList.add(operationImplementationDto);
+        }
+
+
+        return operationImplementationList;
 
     }//getTaskImplementation
 

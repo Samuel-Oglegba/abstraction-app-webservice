@@ -57,12 +57,30 @@ public class AbstractionAppInitializer implements ApplicationListener<ContextRef
         Communication communication4 = createDefaultCommunication("REORDER_QUE", abstractType, 1);
 
         //TODO -- populate the default operation implementation
+        //node 1 -> node 2
         createDefaultOperationImplementation(task1, operation1, communication1, "", 1);
         createDefaultOperationImplementation(task2, operation2, communication1, "", 1);
         //TODO -- GET THE CORRECT ORDER OF IMPLEMENTATION
+       /*
         createDefaultOperationImplementation(task3, operation1, communication3, "", 1);
         createDefaultOperationImplementation(task4, operation2, communication4, "", 1);
         createDefaultOperationImplementation(task5, operation1, communication4, "", 1);
+       */
+        //node 2 -> node 3
+        createDefaultOperationImplementation(task2, operation1, communication2, "", 1);
+        createDefaultOperationImplementation(task3, operation2, communication2, "", 1);
+
+        //node 3 -> node 5
+        createDefaultOperationImplementation(task3, operation1, communication3, "", 1);
+        createDefaultOperationImplementation(task5, operation2, communication3, "", 1);
+
+        //node 3 -> node 4
+        createDefaultOperationImplementation(task3, operation1, communication4, "", 1);
+        createDefaultOperationImplementation(task4, operation2, communication4, "", 1);
+
+        //node 4 -> node 5
+        createDefaultOperationImplementation(task4, operation1, communication4, "", 1);
+        createDefaultOperationImplementation(task5, operation2, communication4, "", 1);
 
     }
 
@@ -77,12 +95,12 @@ public class AbstractionAppInitializer implements ApplicationListener<ContextRef
      */
     private void createDefaultOperationImplementation(Task task, Operation operation, Communication communication,
                                                       String attributes, long createdBy) {
-       if(task != null && operation != null && communication != null){
-           OperationImplementation operationImplementation = new OperationImplementation(task, operation, communication,
-                   attributes, createdBy);
+        if (task != null && operation != null && communication != null) {
+            OperationImplementation operationImplementation = new OperationImplementation(task, operation, communication,
+                    attributes, createdBy);
 
-           operationImplementationRepository.save(operationImplementation);
-       }
+            operationImplementationRepository.save(operationImplementation);
+        }
 
     }//createDefaultOperationImplementation
 
