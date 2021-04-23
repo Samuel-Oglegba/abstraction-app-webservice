@@ -14,5 +14,5 @@ public interface OperationImplementationRepository extends JpaRepository<Operati
 
     Iterable<OperationImplementation> findByOperationId(long operationId);
 
-    Iterable<OperationImplementation> findByCommunicationId(long taskId);
+    Iterable<OperationImplementation> findByCommunicationId(long communicationId);
 }

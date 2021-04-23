@@ -58,6 +58,6 @@ public class OperationImplementationServiceImp implements OperationImplementatio
 
     @Override
     public Iterable<OperationImplementation> findByCommunicationId(long communicationId) {
-        return null;
+        return operationImplementationRepository.findByCommunicationId(communicationId);
     }
 }

@@ -1,0 +1,12 @@
+unnamed package
+com.example.abstractionapp
+com.example.abstractionapp.config
+com.example.abstractionapp.controllers
+com.example.abstractionapp.dto
+com.example.abstractionapp.models
+com.example.abstractionapp.models.abstractOrCommon
+com.example.abstractionapp.repositories
+com.example.abstractionapp.services
+com.example.abstractionapp.services.interfaces
+com.example.abstractionapp.utils
+com.example.abstractionapp.webserviceabstractionapp
