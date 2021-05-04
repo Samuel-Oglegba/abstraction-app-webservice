@@ -53,15 +53,21 @@ public class OperationController {
 
     }//getTaskImplementation
 
-    @RequestMapping(value = "/api/v1/edge-task/{edgeName}",method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/api/v1/edge-task/{edgeName}/{taskName1}/{taskName2}",method = RequestMethod.GET,produces = "application/json")
     @ResponseBody
-    public ArrayList<OperationImplementationDto> getEdgeTask(@PathVariable("edgeName") @NotNull String edgeName){
+    public ArrayList<OperationImplementationDto> getEdgeTask(@PathVariable("edgeName") @NotNull String edgeName,
+                                                             @PathVariable("taskName1") @NotNull String taskName1,
+                                                             @PathVariable("taskName2") @NotNull String taskName2){
         if(edgeName.contains(":")){
             String[] theEdgeName = edgeName.split(":");
-            edgeName = theEdgeName[0].trim();
-        }
-        Communication communication = communicationServiceImp.findByVariableName(edgeName.toUpperCase());
-        Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByCommunicationId(communication.getId());
+            edgeName = theEdgeName[0];
+        }//if
+
+        Communication communication = communicationServiceImp.findByVariableName(edgeName.toUpperCase().trim());
+        Task task1 = taskServiceImp.findByName(taskName1.toUpperCase());
+        Task task2 = taskServiceImp.findByName(taskName2.toUpperCase());
+        //Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByCommunicationId(communication.getId());
+        Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByCommunicationAndTask(communication.getId(), task1.getId(), task2.getId());
 
         ArrayList<OperationImplementationDto> operationImplementationList = loadOperationImplementationList(operationImplementation);
 
@@ -78,6 +84,7 @@ public class OperationController {
             operationImplementationDto.setOperation(implementation.getOperation());
             operationImplementationDto.setCommunication(implementation.getCommunication());
             operationImplementationDto.setTask(implementation.getTask());
+            operationImplementationDto.setTask2(implementation.getTask2());
             operationImplementationDto.setAttributes(implementation.getAttributes());
             operationImplementationDto.setId(implementation.getId());
             operationImplementationDto.setCreatedBy(implementation.getCreatedBy());

@@ -20,6 +20,9 @@ public class OperationImplementationDto {
     private Task task;
 
     @NotNull
+    private Task task2;
+
+    @NotNull
     private Operation operation;
 
     @NotNull

@@ -58,8 +58,8 @@ public class AbstractionAppInitializer implements ApplicationListener<ContextRef
 
         //TODO -- populate the default operation implementation
         //node 1 -> node 2
-        createDefaultOperationImplementation(task1, operation1, communication1, "", 1);
-        createDefaultOperationImplementation(task2, operation2, communication1, "", 1);
+        createDefaultOperationImplementation(task1, task2, operation1, communication1, "", 1);
+        createDefaultOperationImplementation(task2, task1, operation2, communication1, "", 1);
         //TODO -- GET THE CORRECT ORDER OF IMPLEMENTATION
        /*
         createDefaultOperationImplementation(task3, operation1, communication3, "", 1);
@@ -67,20 +67,20 @@ public class AbstractionAppInitializer implements ApplicationListener<ContextRef
         createDefaultOperationImplementation(task5, operation1, communication4, "", 1);
        */
         //node 2 -> node 3
-        createDefaultOperationImplementation(task2, operation1, communication2, "", 1);
-        createDefaultOperationImplementation(task3, operation2, communication2, "", 1);
+        createDefaultOperationImplementation(task2, task3, operation1, communication2, "", 1);
+        createDefaultOperationImplementation(task3, task2, operation2, communication2, "", 1);
 
         //node 3 -> node 5
-        createDefaultOperationImplementation(task3, operation1, communication3, "", 1);
-        createDefaultOperationImplementation(task5, operation2, communication3, "", 1);
+        createDefaultOperationImplementation(task3, task5, operation1, communication3, "", 1);
+        createDefaultOperationImplementation(task5,task3, operation2, communication3, "", 1);
 
         //node 3 -> node 4
-        createDefaultOperationImplementation(task3, operation1, communication4, "", 1);
-        createDefaultOperationImplementation(task4, operation2, communication4, "", 1);
+        createDefaultOperationImplementation(task3, task4, operation1, communication4, "", 1);
+        createDefaultOperationImplementation(task4, task3, operation2, communication4, "", 1);
 
         //node 4 -> node 5
-        createDefaultOperationImplementation(task4, operation1, communication4, "", 1);
-        createDefaultOperationImplementation(task5, operation2, communication4, "", 1);
+        createDefaultOperationImplementation(task4, task5, operation1, communication4, "", 1);
+        createDefaultOperationImplementation(task5, task4, operation2, communication4, "", 1);
 
     }
 
@@ -93,10 +93,10 @@ public class AbstractionAppInitializer implements ApplicationListener<ContextRef
      * @param attributes
      * @param createdBy
      */
-    private void createDefaultOperationImplementation(Task task, Operation operation, Communication communication,
+    private void createDefaultOperationImplementation(Task task, Task task2, Operation operation, Communication communication,
                                                       String attributes, long createdBy) {
-        if (task != null && operation != null && communication != null) {
-            OperationImplementation operationImplementation = new OperationImplementation(task, operation, communication,
+        if (task != null && task2 != null && operation != null && communication != null) {
+            OperationImplementation operationImplementation = new OperationImplementation(task, task2, operation, communication,
                     attributes, createdBy);
 
             operationImplementationRepository.save(operationImplementation);

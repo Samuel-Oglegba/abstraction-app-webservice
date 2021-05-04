@@ -18,7 +18,7 @@ public class OperationImplementationServiceImp implements OperationImplementatio
     @Override
     public OperationImplementation save(OperationImplementationDto operationImplementationDto) {
         try{
-            OperationImplementation operationImplementation = new OperationImplementation(operationImplementationDto.getTask(),
+            OperationImplementation operationImplementation = new OperationImplementation(operationImplementationDto.getTask(), operationImplementationDto.getTask2(),
                     operationImplementationDto.getOperation(), operationImplementationDto.getCommunication(),
                     operationImplementationDto.getAttributes(), operationImplementationDto.getCreatedBy());
 
@@ -59,5 +59,10 @@ public class OperationImplementationServiceImp implements OperationImplementatio
     @Override
     public Iterable<OperationImplementation> findByCommunicationId(long communicationId) {
         return operationImplementationRepository.findByCommunicationId(communicationId);
+    }
+
+    @Override
+    public Iterable<OperationImplementation> findByCommunicationAndTask(long communicationId, long taskId1, long taskId2) {
+        return operationImplementationRepository.findByCommunicationAndTask(communicationId, taskId1, taskId2);
     }
 }

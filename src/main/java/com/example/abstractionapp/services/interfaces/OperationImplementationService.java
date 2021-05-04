@@ -22,4 +22,6 @@ public interface OperationImplementationService {
 
     public  Iterable<OperationImplementation> findByCommunicationId(long communicationId);
 
+    public  Iterable<OperationImplementation> findByCommunicationAndTask(long communicationId, long taskId1, long taskId2);
+
 }

@@ -17,10 +17,11 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class OperationImplementation extends Model {
 
-    public OperationImplementation(Task task, Operation operation, Communication communication,
+    public OperationImplementation(Task task, Task task2, Operation operation, Communication communication,
                                    String attributes, long createdBy){
 
         this.setTask(task);
+        this.setTask2(task2);
         this.setOperation(operation);
         this.setCommunication(communication);
         this.setAttributes(attributes);
@@ -31,6 +32,10 @@ public class OperationImplementation extends Model {
     @ManyToOne
     @JsonIgnore
     private Task task;
+
+    @ManyToOne
+    @JsonIgnore
+    private Task task2;
 
     @ManyToOne
     @JsonIgnore
