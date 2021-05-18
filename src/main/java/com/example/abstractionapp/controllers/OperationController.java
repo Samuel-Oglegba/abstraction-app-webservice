@@ -81,7 +81,9 @@ public class OperationController {
         for (OperationImplementation implementation : operationImplementation) {
             //set the data transfer object
             OperationImplementationDto operationImplementationDto = new OperationImplementationDto();
+
             operationImplementationDto.setOperation(implementation.getOperation());
+            operationImplementationDto.setAbstractType(implementation.getOperation().getAbstractType());
             operationImplementationDto.setCommunication(implementation.getCommunication());
             operationImplementationDto.setTask(implementation.getTask());
             operationImplementationDto.setTask2(implementation.getTask2());

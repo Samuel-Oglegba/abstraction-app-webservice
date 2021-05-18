@@ -1,5 +1,6 @@
 package com.example.abstractionapp.dto;
 
+import com.example.abstractionapp.models.AbstractType;
 import com.example.abstractionapp.models.Communication;
 import com.example.abstractionapp.models.Operation;
 import com.example.abstractionapp.models.Task;
@@ -24,6 +25,9 @@ public class OperationImplementationDto {
 
     @NotNull
     private Operation operation;
+
+    @NotNull
+    private AbstractType abstractType;
 
     @NotNull
     private Communication communication;
