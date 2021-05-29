@@ -74,6 +74,11 @@ public class OperationController {
         return operationImplementationList;
     }//getEdgeTask
 
+    /**
+     * this method returns operation implementation arrayList
+     * @param operationImplementation
+     * @return
+     */
     private ArrayList<OperationImplementationDto> loadOperationImplementationList(Iterable<OperationImplementation> operationImplementation) {
 
         ArrayList<OperationImplementationDto> operationImplementationList = new ArrayList<>();
