@@ -1,4 +1,4 @@
-package com.example.abstractionapp.webserviceabstractionapp;
+package com.example.abstractionapp;
 
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;

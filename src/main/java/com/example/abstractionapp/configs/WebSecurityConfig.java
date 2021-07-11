@@ -1,4 +1,4 @@
-package com.example.abstractionapp.config;
+package com.example.abstractionapp.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

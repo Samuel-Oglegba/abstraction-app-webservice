@@ -28,6 +28,15 @@ public class AbstractTypeServiceImp implements AbstractTypeService {
         }
     }//save
 
+    public AbstractType save(AbstractType abstractType) {
+        try {
+            return abstractTypeRepository.save(abstractType);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }//save
+
     @Override
     public Iterable<AbstractType> findAll() {
         return abstractTypeRepository.findAll();

@@ -1,4 +1,11 @@
 # abstraction-app-webservice\
+#TODO - add read-me to each directory - purpose and content of the directory
+#take the word AbstractionAppInitializer - DedupInitializer
+# abstract the initial app initializer into a file (description file) for Dedup
+# split AbstractionAppInitializer into a generic class to support all possible user application not just dedup
+
+#the frontend task graph populates the backend when the app runs for the first time
+
 
 **# Running the WebService and MariaDB on Docker**\
 Step 1- pull mariaDb\

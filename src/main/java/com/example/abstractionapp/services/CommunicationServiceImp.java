@@ -26,6 +26,16 @@ public class CommunicationServiceImp implements CommunicationService{
         }
     }//save
 
+    public Communication save(Communication communication) {
+        try{
+             return communicationRepository.save(communication);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }//save
+
     @Override
     public Iterable<Communication> findAll() {
         return null;

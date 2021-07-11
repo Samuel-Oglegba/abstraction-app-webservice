@@ -1,4 +1,5 @@
-import com.example.abstractionapp.webserviceabstractionapp.CucumberTest;
+package com.example.abstractionapp;
+
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

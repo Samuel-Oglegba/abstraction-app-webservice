@@ -27,6 +27,16 @@ public class TaskServiceImp implements TaskService {
         }
     }
 
+    public Task save(Task task) {
+        try{
+            return taskRepository.save(task);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public Iterable<Task> findAll() {
         return null;
