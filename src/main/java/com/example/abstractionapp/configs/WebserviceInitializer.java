@@ -1,6 +1,11 @@
 package com.example.abstractionapp.configs;
 
 import com.example.abstractionapp.models.*;
+import com.example.abstractionapp.repositories.*;
+import com.example.abstractionapp.services.AbstractTypeServiceImp;
+import com.example.abstractionapp.services.CommunicationServiceImp;
+import com.example.abstractionapp.services.TaskServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -9,6 +14,20 @@ import javax.transaction.Transactional;
 
 @Component
 public class WebserviceInitializer implements ApplicationListener<ContextRefreshedEvent> {
+    @Autowired
+    private AbstractTypeRepository abstractTypeRepository;
+
+    @Autowired
+    private OperationRepository operationRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
+
+    @Autowired
+    CommunicationRepository communicationRepository;
+
+    @Autowired
+    OperationImplementationRepository operationImplementationRepository;
 
     @Override
     @Transactional

@@ -1,4 +1,7 @@
 package com.example.abstractionapp.controllers;
+/**
+ * this class -- TODO- complete the purpose of the class
+ */
 
 import com.example.abstractionapp.configs.UserInputInitializer;
 import com.example.abstractionapp.dto.DotInputInitializerDto;
@@ -43,14 +46,14 @@ public class OperationController {
      */
     @RequestMapping(value = "/api/v1/draw-graph",method = RequestMethod.POST,produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public void drawGraph(@RequestBody DotInputInitializerDto dotInputInitializerDto){
+    public boolean drawGraph(@RequestBody DotInputInitializerDto dotInputInitializerDto){
         try {
             //get json parameters
             String dotInput = dotInputInitializerDto.getDotInput();
             long userId = dotInputInitializerDto.getUserId();
             //initialize the config class
             UserInputInitializer userInputInitializer = new UserInputInitializer(
-                    taskServiceImp,abstractTypeServiceImp,communicationServiceImp
+                    taskServiceImp,abstractTypeServiceImp,communicationServiceImp,operationServiceImp,operationImplementationServiceImp
             );
 
             InputStream inputStream = new ByteArrayInputStream(dotInput.getBytes(Charset.forName("UTF-8")));
@@ -61,7 +64,7 @@ public class OperationController {
 
             //create all nodes and edges
             userInputInitializer.createNodesAndEdges(nodes,edges,userId);
-
+            return true;
         /*
         FileWriter myWriter = new FileWriter("example/filename.dg");
         myWriter.write(dotInput);
@@ -84,7 +87,7 @@ public class OperationController {
 
         }catch (Exception e){
             e.printStackTrace();
-            return;
+            return false;
         }
     }
     /**

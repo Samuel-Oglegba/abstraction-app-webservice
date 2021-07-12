@@ -30,6 +30,16 @@ public class OperationImplementationServiceImp implements OperationImplementatio
         }
     }//save
 
+    public OperationImplementation save(OperationImplementation operationImplementation) {
+        try{
+            return operationImplementationRepository.save(operationImplementation);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }//save
+
     @Override
     public Iterable<OperationImplementation> findAll() {
         return null;

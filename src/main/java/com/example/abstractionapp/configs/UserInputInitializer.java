@@ -2,9 +2,7 @@ package com.example.abstractionapp.configs;
 
 import com.example.abstractionapp.models.*;
 import com.example.abstractionapp.repositories.*;
-import com.example.abstractionapp.services.AbstractTypeServiceImp;
-import com.example.abstractionapp.services.CommunicationServiceImp;
-import com.example.abstractionapp.services.TaskServiceImp;
+import com.example.abstractionapp.services.*;
 import com.example.abstractionapp.utils.StringFormat;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
@@ -15,32 +13,37 @@ import java.util.Map;
 
 
 public class UserInputInitializer {
-    @Autowired
+
+
     private AbstractTypeServiceImp abstractTypeRepository;
 
-    @Autowired
-    private OperationRepository operationRepository;
+    private OperationServiceImp operationRepository;
 
-    TaskServiceImp taskRepository;
+    private TaskServiceImp taskRepository;
 
-    CommunicationServiceImp communicationRepository;
+    private CommunicationServiceImp communicationRepository;
 
-    @Autowired
-    OperationImplementationRepository operationImplementationRepository;
+    private OperationImplementationServiceImp operationImplementationRepository;
 
-    StringFormat stringFormat;
+    private StringFormat stringFormat;
 
     //constructor
     public UserInputInitializer(){
         stringFormat = new StringFormat();
     }
-    public UserInputInitializer(TaskServiceImp taskServiceImp
-            ,AbstractTypeServiceImp abstractTypeServiceImp
-            ,CommunicationServiceImp communicationServiceImp){
+    public UserInputInitializer(TaskServiceImp taskServiceImp,
+            AbstractTypeServiceImp abstractTypeServiceImp,
+            CommunicationServiceImp communicationServiceImp,
+            OperationServiceImp operationServiceImp,
+            OperationImplementationServiceImp operationImplementationServiceImp
+     ){
+
         stringFormat = new StringFormat();
         abstractTypeRepository= abstractTypeServiceImp;
         taskRepository = taskServiceImp;
         communicationRepository = communicationServiceImp;
+        operationRepository = operationServiceImp;
+        operationImplementationRepository = operationImplementationServiceImp;
     }
 
     @Transactional
@@ -137,7 +140,7 @@ public class UserInputInitializer {
             final Communication communication = new Communication(variableName, abstractType, createdBy);
             return communicationRepository.save(communication);
         }
-        return null;
+        return communicationExist;
 
     }//createDefaultCommunication
 
@@ -157,7 +160,7 @@ public class UserInputInitializer {
             return taskRepository.save(task);
         }
 
-        return null;
+        return taskExist;
     }//createDefaultTask
 
     /**
@@ -179,7 +182,7 @@ public class UserInputInitializer {
             return operationRepository.save(operation);
         }
 
-        return null;
+        return operationExist;
 
     }//createDefaultOperations
 
@@ -192,14 +195,14 @@ public class UserInputInitializer {
     public AbstractType createDefaultAbstractType(String name, long createdBy) {
 
         //find the abstract type by name
-        AbstractType abstractTypeCheck = abstractTypeRepository.findByName(name);
+        final AbstractType abstractTypeCheck = abstractTypeRepository.findByName(name);
 
         if (abstractTypeCheck == null) {
             final AbstractType abstractType = new AbstractType(name, createdBy);
             return abstractTypeRepository.save(abstractType);
         }
 
-        return null;
+        return abstractTypeCheck;
 
     }//createDefaultAbstractType
 

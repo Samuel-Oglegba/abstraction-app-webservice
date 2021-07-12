@@ -28,6 +28,16 @@ public class OperationServiceImp implements OperationService {
         }
     }
 
+    public Operation save(Operation operation) {
+        try{
+            return operationRepository.save(operation);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public Iterable<Operation> findAll() {
         return null;
