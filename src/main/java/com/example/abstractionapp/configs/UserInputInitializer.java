@@ -1,12 +1,10 @@
 package com.example.abstractionapp.configs;
 
 import com.example.abstractionapp.models.*;
-import com.example.abstractionapp.repositories.*;
 import com.example.abstractionapp.services.*;
 import com.example.abstractionapp.utils.StringFormat;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 import java.util.Map;
@@ -48,11 +46,10 @@ public class UserInputInitializer {
 
     @Transactional
     public void createNodesAndEdges(Map<String, GraphNode> nodes, Map<String, GraphEdge> edges, long userId){
-        //create the nodes
-        createNodes(nodes,userId);
-
-        //create the edges
-        createEdges(edges,userId);
+          //create the nodes
+          createNodes(nodes,userId);
+          //create the edges
+          createEdges(edges,userId);
 
     }//createNodesAndEdges
 
@@ -79,27 +76,33 @@ public class UserInputInitializer {
         stringFormat = new StringFormat();
         for (GraphEdge edge : edges.values()) {
             //System.out.println(edge.getNode1().getId() + "->" + edge.getNode2().getId() + " " + edge.getAttributes() + " "+edge.getAttributes().get("label"));
-           String[] edgeInfo =  stringFormat.splitByColon(edge.getAttributes().get("label").toString());
 
-            if(edgeInfo != null){
-                //crate the abstract type input
-                AbstractType abstractType = createDefaultAbstractType(edgeInfo[1].trim(),userId);
+              // if(edge.getAttributes().get("label") != null){
+                   String[] edgeInfo =  edge.getAttributes().get("label") !=null
+                           ? stringFormat.splitByColon(edge.getAttributes().get("label").toString())
+                           : null;
 
-                //create the edge name
-                Communication communication = createDefaultCommunication(edgeInfo[0].trim(), abstractType, userId);
+                   //crate the abstract type input
+                   String abstractTypeName = edgeInfo != null ? edgeInfo[1].trim() : "--";
+                   AbstractType abstractType = createDefaultAbstractType(abstractTypeName,userId);
 
-                //create the operations
-                Operation operation1 = createDefaultOperations("PUSH", "Any", "void", userId, abstractType);
-                Operation operation2 = createDefaultOperations("POP", "void", "Any", userId, abstractType);
+                   //create the edge name
+                   String communicationName = edgeInfo != null ? edgeInfo[0].trim() : "--";
+                   Communication communication = createDefaultCommunication(communicationName, abstractType, userId);
 
-                //create the implementation detail
-                final Task task1 = taskRepository.findByName(edge.getNode1().getId());
-                final Task task2 = taskRepository.findByName(edge.getNode2().getId());
-                createDefaultOperationImplementation(task1,task2, operation1, communication, null, userId);
-                createDefaultOperationImplementation(task2,task1, operation2, communication, null, userId);
+                   //create the operations
+                   Operation operation1 = createDefaultOperations("PUSH", "Any", "void", userId, abstractType);
+                   Operation operation2 = createDefaultOperations("POP", "void", "Any", userId, abstractType);
 
-            }//if
+                   //create the implementation detail
+                   final Task task1 = taskRepository.findByName(edge.getNode1().getId());
+                   final Task task2 = taskRepository.findByName(edge.getNode2().getId());
+                   String attributes = edge.getAttributes().toString();
 
+                   createDefaultOperationImplementation(task1,task2, operation1, communication, attributes, userId);
+                   createDefaultOperationImplementation(task2,task1, operation2, communication, attributes, userId);
+
+              // }//if
         }
     }//createEdges
 
@@ -116,7 +119,7 @@ public class UserInputInitializer {
      */
     public void createDefaultOperationImplementation(Task task, Task task2, Operation operation, Communication communication,
                                                       String attributes, long createdBy) {
-        if (task != null && task2 != null && operation != null && communication != null) {
+       if (task != null && task2 != null && operation != null && communication != null) {
             OperationImplementation operationImplementation = new OperationImplementation(task, task2, operation, communication,
                     attributes, createdBy);
 
@@ -140,7 +143,7 @@ public class UserInputInitializer {
             final Communication communication = new Communication(variableName, abstractType, createdBy);
             return communicationRepository.save(communication);
         }
-        return communicationExist;
+        return null;
 
     }//createDefaultCommunication
 
@@ -160,7 +163,7 @@ public class UserInputInitializer {
             return taskRepository.save(task);
         }
 
-        return taskExist;
+        return null;
     }//createDefaultTask
 
     /**

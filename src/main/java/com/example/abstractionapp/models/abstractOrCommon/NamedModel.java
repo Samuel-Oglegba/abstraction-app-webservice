@@ -15,6 +15,6 @@ public class NamedModel extends Model {
 
     @Column(unique = true, nullable = false)
     @NotNull(message = "Name Cannot be null")
-    @Size(min=3)
+    @Size(min=1)
     private String name;
 }

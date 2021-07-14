@@ -24,6 +24,26 @@ public class StringFormat {
         }
     }//splitByColon
 
+    public boolean validateDotInput(String inputString){
+        try {
+          //  inputString = inputString.contains("graph") ? ;
+            boolean res = false;
+            if (inputString.contains("digraph")){
+                if( inputString.contains("->") )
+                    res = true;
+            }
+            else if(inputString.contains("graph")){
+                if( inputString.contains("--") )
+                    res = true;
+            }
+
+            return res;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
     /**
      * split the string by comma
      * @param inputString

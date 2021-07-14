@@ -10,6 +10,7 @@ import com.example.abstractionapp.models.Communication;
 import com.example.abstractionapp.models.OperationImplementation;
 import com.example.abstractionapp.models.Task;
 import com.example.abstractionapp.services.*;
+import com.example.abstractionapp.utils.StringFormat;
 import com.paypal.digraph.parser.GraphEdge;
 import com.paypal.digraph.parser.GraphNode;
 import com.paypal.digraph.parser.GraphParser;
@@ -51,19 +52,28 @@ public class OperationController {
             //get json parameters
             String dotInput = dotInputInitializerDto.getDotInput();
             long userId = dotInputInitializerDto.getUserId();
-            //initialize the config class
-            UserInputInitializer userInputInitializer = new UserInputInitializer(
-                    taskServiceImp,abstractTypeServiceImp,communicationServiceImp,operationServiceImp,operationImplementationServiceImp
-            );
+
+            //TODO-- validate dotInput
+            StringFormat stringFormat = new StringFormat();
+            if(!stringFormat.validateDotInput(dotInput)){
+               return false;
+            }
 
             InputStream inputStream = new ByteArrayInputStream(dotInput.getBytes(Charset.forName("UTF-8")));
             //initialize the parser
             GraphParser parser = new GraphParser(inputStream);
+            //System.out.println(parser.getGraphId());
+
             Map<String, GraphNode> nodes = parser.getNodes();
             Map<String, GraphEdge> edges = parser.getEdges();
 
             //create all nodes and edges
+            //initialize the config class
+            UserInputInitializer userInputInitializer = new UserInputInitializer(
+                    taskServiceImp,abstractTypeServiceImp,communicationServiceImp,operationServiceImp,operationImplementationServiceImp
+            );
             userInputInitializer.createNodesAndEdges(nodes,edges,userId);
+
             return true;
         /*
         FileWriter myWriter = new FileWriter("example/filename.dg");
