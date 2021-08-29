@@ -25,6 +25,8 @@ public class UserInputInitializer {
 
     private StringFormat stringFormat;
 
+    private boolean recordsAlreadyExist = false;
+
     //constructor
     public UserInputInitializer(){
         stringFormat = new StringFormat();
@@ -48,8 +50,10 @@ public class UserInputInitializer {
     public void createNodesAndEdges(Map<String, GraphNode> nodes, Map<String, GraphEdge> edges, long userId){
           //create the nodes
           createNodes(nodes,userId);
-          //create the edges
-          createEdges(edges,userId);
+          //create the edges when the records does not exist
+          if(!recordsAlreadyExist){
+              createEdges(edges,userId);
+          }//if
 
     }//createNodesAndEdges
 
@@ -62,7 +66,12 @@ public class UserInputInitializer {
         for (GraphNode node : nodes.values()) {
             //System.out.println(node.getId() + " " + node.getAttributes());
             //create the task/node name if it doesn't exist
-            createDefaultTask(node.getId(),userId);
+            if(createDefaultTask(node.getId(),userId) == null){
+                recordsAlreadyExist = true;
+            }//if
+            else{
+                recordsAlreadyExist = false;
+            }//else
         }//for
 
     }//createNodes
@@ -75,8 +84,7 @@ public class UserInputInitializer {
     private void createEdges(Map<String, GraphEdge> edges, long userId){
         stringFormat = new StringFormat();
         for (GraphEdge edge : edges.values()) {
-            //System.out.println(edge.getNode1().getId() + "->" + edge.getNode2().getId() + " " + edge.getAttributes() + " "+edge.getAttributes().get("label"));
-
+               // System.out.println(edge.getNode1().getId() + "->" + edge.getNode2().getId() + " " + edge.getAttributes() + " "+edge.getAttributes().get("label"));
               // if(edge.getAttributes().get("label") != null){
                    String[] edgeInfo =  edge.getAttributes().get("label") !=null
                            ? stringFormat.splitByColon(edge.getAttributes().get("label").toString())
@@ -119,12 +127,12 @@ public class UserInputInitializer {
      */
     public void createDefaultOperationImplementation(Task task, Task task2, Operation operation, Communication communication,
                                                       String attributes, long createdBy) {
-       if (task != null && task2 != null && operation != null && communication != null) {
+      //if (task != null && task2 != null && operation != null && communication != null) {
             OperationImplementation operationImplementation = new OperationImplementation(task, task2, operation, communication,
                     attributes, createdBy);
 
             operationImplementationRepository.save(operationImplementation);
-        }
+       // }//if
 
     }//createDefaultOperationImplementation
 
@@ -143,7 +151,7 @@ public class UserInputInitializer {
             final Communication communication = new Communication(variableName, abstractType, createdBy);
             return communicationRepository.save(communication);
         }
-        return null;
+        return communicationExist;
 
     }//createDefaultCommunication
 

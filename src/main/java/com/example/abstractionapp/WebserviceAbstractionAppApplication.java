@@ -1,3 +1,7 @@
+/**
+ * This is the entry point to the webservice
+ ** the @Bean annotation configures the app
+ */
 package com.example.abstractionapp;
 
 import org.springframework.boot.SpringApplication;
