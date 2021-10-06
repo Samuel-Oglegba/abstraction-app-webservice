@@ -1,6 +1,9 @@
 package com.example.abstractionapp.controllers;
 /**
- * this class -- TODO- complete the purpose of the class
+ * this controller holds all the api endpoints
+ * the first call is to upload a task graph or process task graph text input
+ * call for node/task details
+ * call for edge/communication details
  */
 
 import com.example.abstractionapp.configs.UserInputInitializer;
@@ -17,10 +20,15 @@ import com.paypal.digraph.parser.GraphParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -43,7 +51,50 @@ public class OperationController {
     //@CrossOrigin(origins = "http://localhost:3000")
 
     /**
-     * draw the graph
+     * extract the graph from uploaded file (.dg supported)
+     */
+    @RequestMapping(value = "/api/v1/upload-graph",method = RequestMethod.POST)
+    @ResponseBody
+    public String drawGraphFromUpload(@RequestParam("file") MultipartFile file, @RequestParam("userId") long userId){
+        try {
+            //validate the file
+            if(file.isEmpty()){
+                System.out.println("File is empty!");
+                return "";
+            }
+
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            String dotGraph = new String(bytes, StandardCharsets.UTF_8);
+            //System.out.println(dotGraph);
+
+            String originalFileName = file.getOriginalFilename();
+            Path path = Paths.get("example/" + originalFileName);
+            Files.write(path, bytes);
+
+            GraphParser parser = new GraphParser(new FileInputStream("example/"+originalFileName));
+            //System.out.println(parser.getGraphId());
+
+            Map<String, GraphNode> nodes = parser.getNodes();
+            Map<String, GraphEdge> edges = parser.getEdges();
+
+            //create all nodes and edges
+            //initialize the config class
+            UserInputInitializer userInputInitializer = new UserInputInitializer(
+                    taskServiceImp,abstractTypeServiceImp,communicationServiceImp,operationServiceImp,operationImplementationServiceImp
+            );
+            userInputInitializer.createNodesAndEdges(nodes,edges,userId);
+
+            return dotGraph;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
+     * draw the graph from text input
      */
     @RequestMapping(value = "/api/v1/draw-graph",method = RequestMethod.POST,produces = "application/json", consumes = "application/json")
     @ResponseBody
@@ -56,7 +107,7 @@ public class OperationController {
             //TODO-- validate dotInput
             StringFormat stringFormat = new StringFormat();
             if(!stringFormat.validateDotInput(dotInput)){
-               return false;
+                return false;
             }
 
             InputStream inputStream = new ByteArrayInputStream(dotInput.getBytes(Charset.forName("UTF-8")));
@@ -75,31 +126,13 @@ public class OperationController {
             userInputInitializer.createNodesAndEdges(nodes,edges,userId);
 
             return true;
-        /*
-        FileWriter myWriter = new FileWriter("example/filename.dg");
-        myWriter.write(dotInput);
-        myWriter.close();
-        // GraphParser parser = new GraphParser(new FileInputStream("example/filename.dg"));
-      */
-        /*
-
-            System.out.println("--- nodes:");
-            for (GraphNode node : nodes.values()) {
-                //log(node.getId() + " " + node.getAttributes());
-                System.out.println(node.getId() + " " + node.getAttributes());
-            }
-            System.out.println("--- edges:");
-            for (GraphEdge edge : edges.values()) {
-                //log(edge.getNode1().getId() + "->" + edge.getNode2().getId() + " " + edge.getAttributes());
-                System.out.println(edge.getNode1().getId() + "->" + edge.getNode2().getId() + " " + edge.getAttributes() + " "+edge.getAttributes().get("label"));
-            }
-        */
 
         }catch (Exception e){
             e.printStackTrace();
             return false;
         }
     }
+
     /**
      * this method returns the task implementation detail
      * @param taskName
@@ -131,25 +164,25 @@ public class OperationController {
 
                                                              @PathVariable("taskName2") @NotNull String taskName2){
 
-       try{
-           if(edgeName.contains(":")){
-               String[] theEdgeName = edgeName.split(":");
-               edgeName = theEdgeName[0];
-           }//if
+        try{
+            if(edgeName.contains(":")){
+                String[] theEdgeName = edgeName.split(":");
+                edgeName = theEdgeName[0];
+            }//if
 
-           Communication communication = communicationServiceImp.findByVariableName(edgeName.toUpperCase().trim());
-           Task task1 = taskServiceImp.findByName(taskName1.toUpperCase());
-           Task task2 = taskServiceImp.findByName(taskName2.toUpperCase());
-           //Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByCommunicationId(communication.getId());
-           Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByCommunicationAndTask(communication.getId(), task1.getId(), task2.getId());
+            Communication communication = communicationServiceImp.findByVariableName(edgeName.toUpperCase().trim());
+            Task task1 = taskServiceImp.findByName(taskName1.toUpperCase());
+            Task task2 = taskServiceImp.findByName(taskName2.toUpperCase());
+            //Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByCommunicationId(communication.getId());
+            Iterable<OperationImplementation> operationImplementation = operationImplementationServiceImp.findByCommunicationAndTask(communication.getId(), task1.getId(), task2.getId());
 
-           ArrayList<OperationImplementationDto> operationImplementationList = loadOperationImplementationList(operationImplementation);
+            ArrayList<OperationImplementationDto> operationImplementationList = loadOperationImplementationList(operationImplementation);
 
-           return operationImplementationList;
-       }
-       catch (Exception e){
-           return null;
-       }
+            return operationImplementationList;
+        }
+        catch (Exception e){
+            return null;
+        }
     }//getEdgeTask
 
     /**
