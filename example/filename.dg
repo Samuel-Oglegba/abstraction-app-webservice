@@ -1,1 +1,0 @@
-digraph G {rankdir="LR";node[shape="box"];  Fragment -> FragmentRefine[label="refine_que : queue"]; FragmentRefine -> Deduplicate[label="deduplicate_que : queue"] Deduplicate -> Compress[label="compress_que : queue"] Deduplicate -> Reorder[label="reorder_que : queue"] Reorder -> Compress[label="reorder_que : queue"] }
